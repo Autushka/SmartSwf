@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component:MainComponentCentroller xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<mx:Label text="Hello World!" verticalCenter="0" horizontalCenter="0" fontSize="48" letterSpacing="1">
+      <mx:filters>
+         <mx:GlowFilter color="#ffffdd"/>
+      </mx:filters>
+	</mx:Label>
+
+	<fx:Script>
+        <![CDATA[
+			import flash.net.Responder;
+			import flash.net.NetConnection;
+			import flash.events.MouseEvent;
+            import mx.controls.Alert;
+ 
+            private function showMonth():void{
+                Alert.show("Thank you " + fullname.text + '! \nYour gift will arrive in.');
+            }
+        ]]>
+    </fx:Script>
+ 
+    <mx:Form>
+        <mx:FormHeading label="Get a free gift!" />
+        <mx:FormItem label="Name">
+            <mx:TextInput id="fullname" />
+        </mx:FormItem>
+        <mx:FormItem>
+            <mx:Button label="Submit"
+                click="showMonth()" />
+        </mx:FormItem>
+    </mx:Form>
+</component:MainComponentController>
