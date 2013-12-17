@@ -1,8 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
                xmlns:s="library://ns.adobe.com/flex/spark"
-               xmlns:mx="library://ns.adobe.com/flex/mx">
+               xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:cus="*"
+			   creationComplete="initVars()">
+
+    <fx:Script>
+        <![CDATA[
+			import mx.core.UIComponent;
+
+			 // Declare bindable properties in Application scope.
+			 [Bindable]
+			 public var hostURL:String;
+			 [Bindable]
+			 public var streemName:String;
+			 
+			 // Assign values to new properties.
+			 private function initVars():void {
+				hostURL = parameters.hostURL;
+				streemName = parameters.streemName;
+			 }
+			 
+			 private function broadcast():void {
+				if (connectBtn.label == "Connect") {
+					trace("Connecting...");
+					connectBtn.label = "Disconnect";
+					cuptureCtrl.startHandler(hostURL, streemName);
+					videoTemplate.addChild(cuptureCtrl);
+				} else {
+					trace("Disconnecting...");
+					connectBtn.label = "Connect";
+					cuptureCtrl.stopHandler(null);
+					videoTemplate.removeChild(cuptureCtrl);
+				}
+			 }
+        ]]>
+    </fx:Script>
 	
-	<component:MainfComponent />
+	<fx:Declarations>
+		<cus:LiveStreams id="cuptureCtrl"></cus:LiveStreams>
+	</fx:Declarations>
+
+  <mx:VBox>
+
+    <mx:Form>
+        <mx:FormHeading label="Broadcast!" />
+        <mx:FormItem label="Host URL">
+            <mx:Label text="{hostURL}" fontWeight="bold"/>
+        </mx:FormItem>
+        <mx:FormItem label="Streem Name">
+            <mx:Label text="{streemName}" fontWeight="bold"/>
+        </mx:FormItem>
+        <mx:FormItem>
+            <mx:Button id="connectBtn" label="Connect"
+                click="broadcast()" />
+        </mx:FormItem>
+    </mx:Form>
+  
+	<mx:UIComponent id="videoTemplate" />
+
+  </mx:VBox>
 
 </s:Application>
