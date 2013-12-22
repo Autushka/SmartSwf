@@ -35,6 +35,12 @@ package {
         var camera:Camera;
         var mic:Microphone;
 		var streemName:String;
+		
+		var frameWidth:Number;
+		var frameHeight:Number;
+		var framesPerSecond:Number;
+		var bandwidth:Number;
+		var quality:Number;
 
         public function LiveStreams()
         {
@@ -43,8 +49,13 @@ package {
 		/*
 		 *  Connect and start publishing the live stream
 		 */
-		public function startHandler(hostURL:String, streemName:String):void {
+		public function startHandler(hostURL:String, streemName:String, frameWidth:Number, frameHeight:Number, framesPerSecond:Number, bandwidth:Number, quality:Number):void {
 			this.streemName = streemName;
+			this.frameWidth = frameWidth;
+			this.frameHeight = frameHeight;
+			this.framesPerSecond = framesPerSecond;
+			this.bandwidth = bandwidth;
+			this.quality = quality;
 			nc = new NetConnection();
             nc.addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
             nc.connect(hostURL);
@@ -88,10 +99,14 @@ package {
 		    mic = Microphone.getMicrophone();
 
 		    if (camera != null){
-
+				
+				camera.setMode(frameWidth, frameHeight, framesPerSecond);
+				// 3840×2160   1920 × 1080    1280×720 800 x 600  640 × 480    320 × 240   160 x 120
+				camera.setQuality(bandwidth, quality);
+				
 				camera.addEventListener(ActivityEvent.ACTIVITY, activityHandler);
 
-				video = new Video();
+				video = new Video(camera.width, camera.height);
 				video.attachCamera(camera);
 
 				ns.attachCamera(camera);
@@ -100,6 +115,9 @@ package {
 			}
 
 			if (mic != null) {
+				mic.setLoopBack(false); 
+				mic.setUseEchoSuppression(true);
+				
 				mic.addEventListener(ActivityEvent.ACTIVITY, activityHandler);
 
 			    ns.attachAudio(mic);

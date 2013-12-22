@@ -14,18 +14,33 @@
 			 public var hostURL:String;
 			 [Bindable]
 			 public var streemName:String;
+			 [Bindable]
+			 public var frameWidth:Number;
+			 [Bindable]
+			 public var frameHeight:Number;
+			 [Bindable]
+			 public var framesPerSecond:Number;
+			 [Bindable]
+			 public var bandwidth:Number;
+			 [Bindable]
+			 public var quality:Number;
 			 
 			 // Assign values to new properties.
 			 private function initVars():void {
 				hostURL = parameters.hostURL;
 				streemName = parameters.streemName;
+				frameWidth = parameters.frameWidth;
+				frameHeight = parameters.frameHeight;
+				framesPerSecond = parameters.framesPerSecond;
+				bandwidth = parameters.bandwidth;
+				quality = parameters.quality;
 			 }
 			 
 			 private function broadcast():void {
 				if (connectBtn.label == "Connect") {
 					trace("Connecting...");
 					connectBtn.label = "Disconnect";
-					cuptureCtrl.startHandler(hostURL, streemName);
+					cuptureCtrl.startHandler(hostURL, streemName, frameWidth, frameHeight, framesPerSecond, bandwidth, quality);
 					videoTemplate.addChild(cuptureCtrl);
 				} else {
 					trace("Disconnecting...");
@@ -50,6 +65,21 @@
         </mx:FormItem>
         <mx:FormItem label="Streem Name">
             <mx:Label text="{streemName}" fontWeight="bold"/>
+        </mx:FormItem>
+        <mx:FormItem label="Frame Width">
+            <mx:Label text="{frameWidth}" fontWeight="bold"/>
+        </mx:FormItem>
+        <mx:FormItem label="Frame Height">
+            <mx:Label text="{frameHeight}" fontWeight="bold"/>
+        </mx:FormItem>
+        <mx:FormItem label="Frames Per Second">
+            <mx:Label text="{framesPerSecond}" fontWeight="bold"/>
+        </mx:FormItem>
+        <mx:FormItem label="Bandwidth">
+            <mx:Label text="{bandwidth}" fontWeight="bold"/>
+        </mx:FormItem>
+        <mx:FormItem label="Quality">
+            <mx:Label text="{quality}" fontWeight="bold"/>
         </mx:FormItem>
         <mx:FormItem>
             <mx:Button id="connectBtn" label="Connect"
